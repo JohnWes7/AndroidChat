@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "458428682098",
+    "firebase_url": "https://chat-softw-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "chat-softw",
+    "storage_bucket": "chat-softw.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458428682098:android:b63059d3264da2031bd7eb",
+        "android_client_info": {
+          "package_name": "com.zandl.androidchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458428682098-sni6plegd3viicr9jb2u3jem839ae1mt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCCIliKe8v_G9_roX837N_ygTqu-JZbikE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458428682098-sni6plegd3viicr9jb2u3jem839ae1mt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

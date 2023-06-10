@@ -12,7 +12,8 @@ public class FriendListController : MonoBehaviour
     [SerializeField] List<FriendIconController> friendIconList = new List<FriendIconController>(); 
     void Start()
     {
-        init("lHutIeAly4QKNPASN5HxotT2CL23");
+        // init("lHutIeAly4QKNPASN5HxotT2CL23");
+        StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
 
     public void init(string Userid)
@@ -28,11 +29,11 @@ public class FriendListController : MonoBehaviour
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         var task = FirebaseDatabase.DefaultInstance.GetReference("Users/" + Userid + "/Friend").GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
-        if (task.IsFaulted)
+        if (task.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
-        else if (task.IsCompleted)
+        else
         {
             DataSnapshot snapshot = task.Result;
             foreach (DataSnapshot childSnapshot in snapshot.Children)//保存所有好友的uid

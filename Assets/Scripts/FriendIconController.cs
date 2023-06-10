@@ -21,11 +21,11 @@ public class FriendIconController : MonoBehaviour
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         var task = FirebaseDatabase.DefaultInstance.GetReference("Users/" + friendid ).GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
-        if (task.IsFaulted)
+        if (task.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
-        else if (task.IsCompleted)
+        else 
         {
             DataSnapshot snapshot = task.Result;
             Debug.Log("好友数据获取成功");
@@ -56,11 +56,11 @@ public class FriendIconController : MonoBehaviour
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         var task = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatid +"/Amount").GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
-        if (task.IsFaulted)
+        if (task.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
-        else if (task.IsCompleted)
+        else
         {
             Debug.Log("聊天长度获取成功");
             DataSnapshot snapshot = task.Result;
@@ -74,11 +74,11 @@ public class FriendIconController : MonoBehaviour
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         var task = FirebaseDatabase.DefaultInstance.GetReference(messageid).GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
-        if (task.IsFaulted)
+        if (task.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
-        else if (task.IsCompleted)
+        else
         {
             Debug.Log("最后消息获取成功");
             DataSnapshot snapshot = task.Result;

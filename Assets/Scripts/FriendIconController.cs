@@ -23,12 +23,12 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç¼ƒæˆ ç²¶é–¿æ¬’î‡¤");
         }
         else 
         {
             DataSnapshot snapshot = task.Result;
-            Debug.Log("ºÃÓÑÊı¾İ»ñÈ¡³É¹¦");
+            Debug.Log("æ¿‚è—‰å¼¸éç‰ˆåµé‘¾å³°å½‡é´æ„¬å§›");
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             string userid = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
@@ -40,12 +40,13 @@ public class FriendIconController : MonoBehaviour
             string combineid;
             if(CombineId(userid, friendid, out combineid))
             {
-                Debug.Log($"id×éºÏ³É¹¦{combineid}");
+                Debug.Log($"idç»„åˆæˆåŠŸ{combineid}");
+                Debug.Log("idç¼å‹«æ‚é´æ„¬å§›");
                 StartCoroutine(ShowChatDetail(combineid));
             }
             else
             {
-                Debug.LogWarning("id×éºÏÊ§°Ü£¡");
+                Debug.LogWarning("idç¼å‹«æ‚æ¾¶è¾«è§¦é”›?");
             }
             
 
@@ -58,10 +59,11 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task1.IsCompleted);
         if (task1.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç¼ƒæˆ ç²¶é–¿æ¬’î‡¤");
         }
         else
         {
+<<<<<<< Updated upstream
             DataSnapshot snapshot1 = task1.Result;
             if (snapshot1.HasChild(chatid))
             {
@@ -69,21 +71,27 @@ public class FriendIconController : MonoBehaviour
                 yield return new WaitUntil(() => task.IsCompleted);
                 if (task.Exception != null)
                 {
-                    Debug.LogWarning("ÍøÂç´íÎó");
+                    Debug.LogWarning("ç½‘ç»œé”™è¯¯");
                 }
                 else
                 {
                     DataSnapshot snapshot = task.Result;
-                    Debug.Log($"ÁÄÌì³¤¶È»ñÈ¡³É¹¦{snapshot.Value.ToString()}");
+                    Debug.Log($"èŠå¤©é•¿åº¦è·å–æˆåŠŸ{snapshot.Value.ToString()}");
                     Debug.Log(snapshot == null);
-                    Debug.Log($"ÁÄÌì¡¤ĞòºÅÎª{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
+                    Debug.Log($"èŠå¤©Â·åºå·ä¸º{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
                     StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
                 }
             }
             else
             {
-                Debug.LogWarning("ÁÄÌìid²»´æÔÚ");
+                Debug.LogWarning("èŠå¤©idä¸å­˜åœ¨");
             }
+=======
+            Debug.Log("é‘±å©‚ã‰é—€å®å®³é‘¾å³°å½‡é´æ„¬å§›");
+            DataSnapshot snapshot = task.Result;
+            Debug.Log("é‘±å©‚ã‰è·¯æ´å¿“å½¿æ¶“?+(int.Parse(snapshot.Value.ToString()) - 1).ToString());
+            StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
+>>>>>>> Stashed changes
         }
         
     }
@@ -96,12 +104,13 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç¼ƒæˆ ç²¶é–¿æ¬’î‡¤");
         }
         else
         {
+            Debug.Log("éˆâ‚¬éšåº¢ç§·é­îˆå¹é™æ ¨åšé”?");
             DataSnapshot snapshot = task.Result;
-            Debug.Log($"×îºóÏûÏ¢»ñÈ¡³É¹¦{snapshot.Value.ToString()}");
+            Debug.Log($"æœ€åæ¶ˆæ¯è·å–æˆåŠŸ{snapshot.Value.ToString()}");
             lastMessage.text = snapshot.Value.ToString();
         }
     }
@@ -113,20 +122,20 @@ public class FriendIconController : MonoBehaviour
         {
             combineid = userid + friendid;
             return true;
-            // string1 ÔÚ string2 Ç°Ãæ
+            // string1 é¦?string2 é“å¶‰æ½°
         }
         else if (result == 0)
         {
-            Debug.LogWarning($"ºÍ×Ô¼ºÁÄÌì£¿ ÄãµÄ£º{userid}  ¶Ô·½µÄ£º {friendid}");
+            Debug.LogWarning($"éœå²ƒåšœå®¸è¾«äº°æ¾¶â•‹ç´µ æµ£çŠµæ®‘é”›æ­¿userid}  ç€µè§„æŸŸé¨å‹¶ç´° {friendid}");
             combineid = "";
             return false;
-            // string1 ºÍ string2 ÏàÍ¬
+            // string1 éœ?string2 é©ç¨¿æ‚“
         }
         else
         {
             combineid = friendid + userid;
             return true;
-            // string1 ÔÚ string2 ºóÃæ
+            // string1 é¦?string2 éšåº¨æ½°
         }
     }
 }

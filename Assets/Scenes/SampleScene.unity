@@ -795,6 +795,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CheckUserDataPanel
       objectReference: {fileID: 0}
+    - target: {fileID: 401237850833141601, guid: ecf0324f233fa1c4bbc53a6b47967cec, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1187921607360815753, guid: ecf0324f233fa1c4bbc53a6b47967cec, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -898,7 +902,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1689415594401748029, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}

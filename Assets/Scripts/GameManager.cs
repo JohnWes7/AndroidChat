@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     public enum GameState
     {
         loginSignup,
-        getCurUserData,
+        checkCurUserData,
         friendList
     }
 
@@ -108,7 +108,7 @@ public class GameManager : MonoBehaviour
             if (signedIn)
             {
                 Debug.Log("GameManager: Signed in " + user.UserId);
-                SwitchState(GameState.getCurUserData);
+                SwitchState(GameState.checkCurUserData);
             }
         }
     }
@@ -145,12 +145,14 @@ public class GameManager : MonoBehaviour
         Debug.Log($"{this.state} -> {state}");
         switch (state)
         {
+            // 注册登录
             case GameState.loginSignup:
                 SetActivePanel(friendListPanelController, false);
                 SetActivePanel(checkUserDataPanelController, false);
                 SetActivePanel(signInUpPanelController, true);
                 break;
-            case GameState.getCurUserData:
+            // 检查数据
+            case GameState.checkCurUserData:
                 SetActivePanel(friendListPanelController, false);
                 SetActivePanel(signInUpPanelController, false);
                 SetActivePanel(checkUserDataPanelController, true);
@@ -159,10 +161,15 @@ public class GameManager : MonoBehaviour
                     checkUserDataPanelController.Init();
                 }
                 break;
+            // 好友列表
             case GameState.friendList:
                 SetActivePanel(friendListPanelController, true);
                 SetActivePanel(signInUpPanelController, false);
                 SetActivePanel(checkUserDataPanelController, false);
+                if (friendListPanelController != null)
+                {
+                    friendListPanelController.init(auth.CurrentUser.UserId);
+                }
                 break;
             default:
                 break;

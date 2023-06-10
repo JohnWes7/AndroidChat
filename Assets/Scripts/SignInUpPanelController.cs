@@ -41,6 +41,7 @@ public class SignInUpPanelController : MonoBehaviour
 
     private void Init()
     {
+        Debug.Log("初始化登录界面");
         // 初始是在登录界面
         state = SUPstate.login;
         SwitchPanel(state);
@@ -98,6 +99,10 @@ public class SignInUpPanelController : MonoBehaviour
                     showText.text = "some in input is empty or confirm password is not same";
                 }
             }
+            else
+            {
+                showText.text = "already doing login";
+            }
         }
         else
         {
@@ -128,6 +133,10 @@ public class SignInUpPanelController : MonoBehaviour
                 {
                     showText.text = "some in input is empty or confirm password is not same";
                 }
+            }
+            else
+            {
+                showText.text = "already doing sign up";
             }
         }
         else
@@ -199,6 +208,7 @@ public class SignInUpPanelController : MonoBehaviour
             // 如果注册成功开始 则要创建用户数据
             signupSuccessfulEvent.Invoke();
         }
+
         startedCorotine = null;
     }
 

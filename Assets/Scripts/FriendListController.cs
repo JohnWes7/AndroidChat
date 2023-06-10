@@ -12,8 +12,8 @@ public class FriendListController : MonoBehaviour
     [SerializeField] List<FriendIconController> friendIconList = new List<FriendIconController>(); 
     void Start()
     {
-        //init("lHutIeAly4QKNPASN5HxotT2CL23");
-        //StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
+        // init("lHutIeAly4QKNPASN5HxotT2CL23");
+        // StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
 
     public void init(string Userid)
@@ -31,20 +31,20 @@ public class FriendListController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç½‘ç»œé”™è¯¯");
         }
         else
         {
             DataSnapshot snapshot = task.Result;
-            foreach (DataSnapshot childSnapshot in snapshot.Children)//±£´æËùÓĞºÃÓÑµÄuid
+            foreach (DataSnapshot childSnapshot in snapshot.Children)//ä¿å­˜æ‰€æœ‰å¥½å‹çš„uid
             {
                 string name = childSnapshot.Value.ToString();
                 friendlist.Add(name);
             }
-            Debug.Log("ºÃÓÑÁĞ±í»ñÈ¡Íê³É");
+            Debug.Log("å¥½å‹åˆ—è¡¨è·å–å®Œæˆ");
             /*foreach(string friend in friendlist)
             {
-                FirebaseDatabase.DefaultInstance.GetReference("Users/" + friend + "/Image").GetValueAsync().ContinueWithOnMainThread(task =>//»ñÈ¡¶ÔÓ¦ºÃÓÑµÄÍ¼Æ¬url
+                FirebaseDatabase.DefaultInstance.GetReference("Users/" + friend + "/Image").GetValueAsync().ContinueWithOnMainThread(task =>//è·å–å¯¹åº”å¥½å‹çš„å›¾ç‰‡url
                 {
                     if (task.IsFaulted)
                     {
@@ -54,7 +54,7 @@ public class FriendListController : MonoBehaviour
                     {
                         DataSnapshot snapshot = task.Result;
                         string image = snapshot.Value.ToString();
-                        imagelist.Add(image);//±£´æºÃÓÑÍ·ÏñÁ´½Óµ½ÁĞ±íÖĞ
+                        imagelist.Add(image);//ä¿å­˜å¥½å‹å¤´åƒé“¾æ¥åˆ°åˆ—è¡¨ä¸­
                     }
                 });
             }*/
@@ -64,10 +64,10 @@ public class FriendListController : MonoBehaviour
             Destroy(item.gameObject);
         }
         friendIconList.Clear();
-        Debug.Log("³¤¶È£º " + friendlist.Count);
+        Debug.Log("é•¿åº¦ï¼š " + friendlist.Count);
         foreach (string friend in friendlist)
         {
-            Debug.Log("ºÃÓÑÃû£º " + friend);
+            Debug.Log("å¥½å‹åï¼š " + friend);
             var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
             friendIconList.Add(temp);
             temp.init(friend);

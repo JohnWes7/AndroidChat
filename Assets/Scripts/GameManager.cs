@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
 
     // 界面实例
     [SerializeField] private SignInUpPanelController signInUpPanelController;
+    [SerializeField] private CheckUserDataPanelController checkUserDataPanelController;
     [SerializeField] private FriendListController friendListPanelController;
 
     public void Awake()
@@ -146,15 +147,22 @@ public class GameManager : MonoBehaviour
         {
             case GameState.loginSignup:
                 SetActivePanel(friendListPanelController, false);
+                SetActivePanel(checkUserDataPanelController, false);
                 SetActivePanel(signInUpPanelController, true);
                 break;
             case GameState.getCurUserData:
                 SetActivePanel(friendListPanelController, false);
                 SetActivePanel(signInUpPanelController, false);
+                SetActivePanel(checkUserDataPanelController, true);
+                if (checkUserDataPanelController)
+                {
+                    checkUserDataPanelController.Init();
+                }
                 break;
             case GameState.friendList:
                 SetActivePanel(friendListPanelController, true);
                 SetActivePanel(signInUpPanelController, false);
+                SetActivePanel(checkUserDataPanelController, false);
                 break;
             default:
                 break;
@@ -171,5 +179,15 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.LogWarning($"panelCompent 不存在 不能设置Active");
+    }
+
+    public string GetUserNameFromSignPanel()
+    {
+        if (signInUpPanelController != null)
+        {
+            return signInUpPanelController.GetSignupName();
+        }
+
+        return "";
     }
 }

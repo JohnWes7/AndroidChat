@@ -455,7 +455,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 603264304}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1610106982}
+        m_TargetAssemblyTypeName: AddFriendController, Assembly-CSharp
+        m_MethodName: OnSearchButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &603264304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1464,6 +1476,7 @@ GameObject:
   - component: {fileID: 1610106979}
   - component: {fileID: 1610106981}
   - component: {fileID: 1610106980}
+  - component: {fileID: 1610106982}
   m_Layer: 5
   m_Name: AddFriend
   m_TagString: Untagged
@@ -1532,6 +1545,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1610106978}
   m_CullTransparentMesh: 1
+--- !u!114 &1610106982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1610106978}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b155f0192453164ba8ab1d25850eba2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  friendPrefab: {fileID: 5741307176815878598, guid: 3ab40313415c3784780eb9d4a224efe4, type: 3}
+  content: {fileID: 519160474}
+  friendIconList: []
+  friendName: {fileID: 1033439742}
 --- !u!1 &1626983097
 GameObject:
   m_ObjectHideFlags: 0

@@ -40,7 +40,7 @@ public class FriendIconController : MonoBehaviour
             string combineid;
             if(CombineId(userid, friendid, out combineid))
             {
-                Debug.Log("id组合成功");
+                Debug.Log($"id组合成功{combineid}");
                 StartCoroutine(ShowChatDetail(combineid));
             }
             else
@@ -54,20 +54,40 @@ public class FriendIconController : MonoBehaviour
     public IEnumerator ShowChatDetail(string chatid)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-        var task = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatid +"/Amount").GetValueAsync();
-        yield return new WaitUntil(() => task.IsCompleted);
-        if (task.Exception != null)
+        var task1 = FirebaseDatabase.DefaultInstance.GetReference("Chats").GetValueAsync();
+        yield return new WaitUntil(() => task1.IsCompleted);
+        if (task1.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
         else
         {
-            Debug.Log("聊天长度获取成功");
-            DataSnapshot snapshot = task.Result;
-            Debug.Log("聊天·序号为"+(int.Parse(snapshot.Value.ToString()) - 1).ToString());
-            StartCoroutine(GetLaetMessage("Chats/" + chatid + "/"+ (int.Parse (snapshot.Value.ToString())-1).ToString() + "/Content"));
+            DataSnapshot snapshot1 = task1.Result;
+            if (snapshot1.HasChild(chatid))
+            {
+                var task = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatid + "/Amount").GetValueAsync();
+                yield return new WaitUntil(() => task.IsCompleted);
+                if (task.Exception != null)
+                {
+                    Debug.LogWarning("网络错误");
+                }
+                else
+                {
+                    DataSnapshot snapshot = task.Result;
+                    Debug.Log($"聊天长度获取成功{snapshot.Value.ToString()}");
+                    Debug.Log(snapshot == null);
+                    Debug.Log($"聊天·序号为{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
+                    StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
+                }
+            }
+            else
+            {
+                Debug.LogWarning("聊天id不存在");
+            }
         }
+        
     }
+
 
     public IEnumerator GetLaetMessage(string messageid)
     {
@@ -80,8 +100,8 @@ public class FriendIconController : MonoBehaviour
         }
         else
         {
-            Debug.Log("最后消息获取成功");
             DataSnapshot snapshot = task.Result;
+            Debug.Log($"最后消息获取成功{snapshot.Value.ToString()}");
             lastMessage.text = snapshot.Value.ToString();
         }
     }

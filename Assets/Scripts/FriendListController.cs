@@ -12,8 +12,8 @@ public class FriendListController : MonoBehaviour
     [SerializeField] List<FriendIconController> friendIconList = new List<FriendIconController>(); 
     void Start()
     {
-        // init("lHutIeAly4QKNPASN5HxotT2CL23");
-        StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
+        //init("lHutIeAly4QKNPASN5HxotT2CL23");
+        //StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
 
     public void init(string Userid)

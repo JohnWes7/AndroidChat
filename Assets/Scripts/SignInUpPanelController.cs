@@ -34,9 +34,16 @@ public class SignInUpPanelController : MonoBehaviour
     [SerializeField] private InputField signupConfirmPsw;
 
 
+
     private void Start()
     {
         Init();
+    }
+
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+        startedCorotine = null;
     }
 
     private void Init()

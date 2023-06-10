@@ -23,12 +23,12 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("缃戠粶閿欒");
+            Debug.LogWarning("网络错误");
         }
         else 
         {
             DataSnapshot snapshot = task.Result;
-            Debug.Log("濂藉弸鏁版嵁鑾峰彇鎴愬姛");
+            Debug.Log("好友数据获取成功");
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             string userid = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
@@ -41,12 +41,11 @@ public class FriendIconController : MonoBehaviour
             if(CombineId(userid, friendid, out combineid))
             {
                 Debug.Log($"id组合成功{combineid}");
-                Debug.Log("id缁勫悎鎴愬姛");
                 StartCoroutine(ShowChatDetail(combineid));
             }
             else
             {
-                Debug.LogWarning("id缁勫悎澶辫触锛?");
+                Debug.LogWarning("id组合失败！");
             }
             
 
@@ -59,11 +58,10 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task1.IsCompleted);
         if (task1.Exception != null)
         {
-            Debug.LogWarning("缃戠粶閿欒");
+            Debug.LogWarning("网络错误");
         }
         else
         {
-<<<<<<< Updated upstream
             DataSnapshot snapshot1 = task1.Result;
             if (snapshot1.HasChild(chatid))
             {
@@ -86,12 +84,6 @@ public class FriendIconController : MonoBehaviour
             {
                 Debug.LogWarning("聊天id不存在");
             }
-=======
-            Debug.Log("鑱婂ぉ闀垮害鑾峰彇鎴愬姛");
-            DataSnapshot snapshot = task.Result;
-            Debug.Log("鑱婂ぉ路搴忓彿涓?+(int.Parse(snapshot.Value.ToString()) - 1).ToString());
-            StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
->>>>>>> Stashed changes
         }
         
     }
@@ -104,11 +96,10 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("缃戠粶閿欒");
+            Debug.LogWarning("网络错误");
         }
         else
         {
-            Debug.Log("鏈€鍚庢秷鎭幏鍙栨垚鍔?");
             DataSnapshot snapshot = task.Result;
             Debug.Log($"最后消息获取成功{snapshot.Value.ToString()}");
             lastMessage.text = snapshot.Value.ToString();
@@ -122,20 +113,20 @@ public class FriendIconController : MonoBehaviour
         {
             combineid = userid + friendid;
             return true;
-            // string1 鍦?string2 鍓嶉潰
+            // string1 在 string2 前面
         }
         else if (result == 0)
         {
-            Debug.LogWarning($"鍜岃嚜宸辫亰澶╋紵 浣犵殑锛歿userid}  瀵规柟鐨勶細 {friendid}");
+            Debug.LogWarning($"和自己聊天？ 你的：{userid}  对方的： {friendid}");
             combineid = "";
             return false;
-            // string1 鍜?string2 鐩稿悓
+            // string1 和 string2 相同
         }
         else
         {
             combineid = friendid + userid;
             return true;
-            // string1 鍦?string2 鍚庨潰
+            // string1 在 string2 后面
         }
     }
 }

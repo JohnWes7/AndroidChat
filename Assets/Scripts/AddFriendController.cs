@@ -13,7 +13,7 @@ public class AddFriendController : MonoBehaviour
     public void OnSearchButtonClick ()
     {
         string friendId = friendName.text;
-        Debug.Log("输入框文本获取成功");
+        Debug.Log($"杈撳叆妗嗘枃鏈幏鍙栨垚鍔焮friendId}");
         StartCoroutine(GetFriendList(friendId));
 
 
@@ -26,29 +26,29 @@ public class AddFriendController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("网络错误");
+            Debug.LogWarning("缃戠粶閿欒");
         }
         else
         {
-            Debug.Log("用户数据获取成功");
+            Debug.Log("鐢ㄦ埛鏁版嵁鑾峰彇鎴愬姛");
             DataSnapshot snapshot = task.Result;
             if (snapshot.HasChild(friendId))
             {
-                Debug.Log("用户存在");
+                Debug.Log($"鐢ㄦ埛瀛樺湪{friendId}");
                 var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<AddFriendIconController>();
                 friendIconList.Add(temp);
                 temp.init(friendId);
             }
             else
             {
-                Debug.LogWarning("该用户不存在");
+                Debug.LogWarning("璇ョ敤鎴蜂笉瀛樺湪");
             }
-            /*foreach (DataSnapshot childSnapshot in snapshot.Children)//保存所有好友的uid
+            /*foreach (DataSnapshot childSnapshot in snapshot.Children)//淇濆瓨鎵�鏈夊ソ鍙嬬殑uid
             {
                 string name = childSnapshot.Value.ToString();
                 friendlist.Add(name);
             }
-            Debug.Log("好友列表获取完成");
+            Debug.Log("濂藉弸鍒楄〃鑾峰彇瀹屾垚");
         }
         foreach (AddFriendIconController item in friendIconList)
         {
@@ -57,7 +57,7 @@ public class AddFriendController : MonoBehaviour
         friendIconList.Clear();
         foreach (string friend in friendlist)
         {
-            Debug.Log("好友名： " + friend);
+            Debug.Log("濂藉弸鍚嶏細 " + friend);
             var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
             friendIconList.Add(temp);
             temp.init(friend);

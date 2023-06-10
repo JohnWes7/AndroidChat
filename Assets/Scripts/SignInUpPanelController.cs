@@ -230,9 +230,19 @@ public class SignInUpPanelController : MonoBehaviour
         startedCorotine = null;
     }
 
-    public void LoginSuccessfulCallBack()
+    private void LoginSuccessfulCallBack()
     {
-        Debug.Log("跳转界面");
+        Debug.Log("SignInUpPanelController:LoginSuccessfulCallBack 等待用户状态跟踪进行跳转");
+        // 如果没有跳转则需这边强制跳转 前提是真的用户登录了
+
     }
 
+    public string GetSignupName()
+    {
+        if (signupName)
+        {
+            return signupName.text;
+        }
+        return "";
+    }
 }

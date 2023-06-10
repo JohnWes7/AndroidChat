@@ -6,7 +6,7 @@ using UnityEngine.Events;
 
 public static class Tool_ZW
 {
-    public static IEnumerator CheckUserData(string UserId, UnityEvent dataExistEvent = null, UnityEvent failEvent = null,UnityEvent dataInexistenceEvent = null)
+    public static IEnumerator CheckUserData(string UserId, UnityEvent dataExistEvent = null, UnityEvent failEvent = null,UnityEvent dataNotExistEvent = null)
     {
         //初始值字典
 
@@ -35,9 +35,9 @@ public static class Tool_ZW
             else
             {
                 Debug.Log($"Tool:CheckUserData 该用户的数据不存在 : {UserId} ");
-                if (dataInexistenceEvent != null)
+                if (dataNotExistEvent != null)
                 {
-                    dataInexistenceEvent.Invoke();
+                    dataNotExistEvent.Invoke();
                 }
             }
             

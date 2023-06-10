@@ -417,7 +417,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.804321, y: -39.06067}
+  m_AnchoredPosition: {x: -9.804443, y: -39.060547}
   m_SizeDelta: {x: 220.671, y: 269.8716}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1291811702
@@ -596,6 +596,14 @@ PrefabInstance:
     - target: {fileID: 1689415594401748029, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_Name
       value: SignInUpPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058844573145, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259059057256999, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}

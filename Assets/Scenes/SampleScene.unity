@@ -474,7 +474,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1971168320
 Transform:
   m_ObjectHideFlags: 0
@@ -499,7 +499,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1971168319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 69616ae81faba2340a851c376337dcce, type: 3}
+  m_Script: {fileID: 11500000, guid: ab38b4e77bf840043919bee5ec2beb54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1689415594071274069
@@ -596,6 +596,22 @@ PrefabInstance:
     - target: {fileID: 1689415594401748029, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_Name
       value: SignInUpPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058844573145, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058844573146, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058844573146, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259059057256999, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}

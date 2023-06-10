@@ -176,20 +176,21 @@ MonoBehaviour:
   login: {fileID: 7246259058844573145}
   signup: {fileID: 7246259059057256999}
   state: 0
-  signupSuccessful:
+  signupSuccessfulEvent:
     m_PersistentCalls:
       m_Calls: []
-  signupFail:
+  signupFailEvent:
     m_PersistentCalls:
       m_Calls: []
-  loginSuccessful:
+  loginSuccessfulEvent:
     m_PersistentCalls:
       m_Calls: []
-  loginFail:
+  loginFailEvent:
     m_PersistentCalls:
       m_Calls: []
   logEmail: {fileID: 7246259057862043961}
   logPsw: {fileID: 7246259059228847379}
+  signupName: {fileID: 3492672770819546782}
   signupEmail: {fileID: 7246259057942699719}
   signupPsw: {fileID: 7246259059278076653}
   signupConfirmPsw: {fileID: 176296677705726156}
@@ -542,6 +543,17 @@ PrefabInstance:
 --- !u!114 &176296677705726156 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8006031688954078249, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+  m_PrefabInstance: {fileID: 7883964030184578277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d199490a83bb2b844b9695cbf13b01ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3492672770819546782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6706142295029908091, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
   m_PrefabInstance: {fileID: 7883964030184578277}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

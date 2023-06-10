@@ -19,15 +19,16 @@ public class SignInUpPanelController : MonoBehaviour
     // 已经开始的协程
     [SerializeField] private Coroutine startedCorotine;
 
-    [SerializeField] private UnityEvent signupSuccessful;
-    [SerializeField] private UnityEvent signupFail;
-    [SerializeField] private UnityEvent loginSuccessful;
-    [SerializeField] private UnityEvent loginFail;
+    [SerializeField] private UnityEvent signupSuccessfulEvent = new UnityEvent();
+    [SerializeField] private UnityEvent signupFailEvent = new UnityEvent();
+    [SerializeField] private UnityEvent loginSuccessfulEvent = new UnityEvent();
+    [SerializeField] private UnityEvent loginFailEvent = new UnityEvent();
 
-    // log input
+    // log input 登录输入框
     [SerializeField] private InputField logEmail;
     [SerializeField] private InputField logPsw;
-    // signup input
+    // signup input 注册输入框
+    [SerializeField] private InputField signupName;
     [SerializeField] private InputField signupEmail;
     [SerializeField] private InputField signupPsw;
     [SerializeField] private InputField signupConfirmPsw;
@@ -40,21 +41,38 @@ public class SignInUpPanelController : MonoBehaviour
 
     private void Init()
     {
+        // 初始是在登录界面
         state = SUPstate.login;
-        signupSuccessful.AddListener(() =>
+        SwitchPanel(state);
+
+        // 注册成功回调
+        signupSuccessfulEvent.AddListener(() =>
         {
             //成功创建账号 打印
             if (showText)
             {
                 showText.text = "create account successfully";
             }
+
         });
 
-        signupFail.AddListener(() =>
+        // 注册失败回调
+        signupFailEvent.AddListener(() =>
         {
             if (showText)
             {
                 showText.text = "fail to sign up, check your network or email has been registed";
+            }
+        });
+
+        // 登录成功回调
+        loginSuccessfulEvent.AddListener(LoginSuccessfulCallBack);
+
+        // 登陆失败回调
+        loginFailEvent.AddListener(() => {
+            if (showText)
+            {
+                showText.text = "fail to log in, please check your email and password";
             }
         });
     }
@@ -66,7 +84,19 @@ public class SignInUpPanelController : MonoBehaviour
             //执行登录
             if (startedCorotine == null)
             {
+                string email;
+                string psw;
 
+                GetLoginInfo(out email, out psw);
+                Debug.Log($"{email} {psw}");
+                if (CheckInfo(email, psw))
+                {
+                    startedCorotine = StartCoroutine(LoginByEmail(email, psw));
+                }
+                else
+                {
+                    showText.text = "some in input is empty or confirm password is not same";
+                }
             }
         }
         else
@@ -86,12 +116,13 @@ public class SignInUpPanelController : MonoBehaviour
                 string email;
                 string psw;
                 string confirm;
+                string sname;
 
-                GetSignUpInfo(out email, out psw, out confirm);
-                Debug.Log($"{email} {psw} {confirm}");
-                if (CheckInfo(email, psw, confirm))
+                GetSignUpInfo(out email, out psw, out confirm, out sname);
+                Debug.Log($"{email} {psw} {confirm} {name}");
+                if (CheckInfo(email, psw, confirm, name))
                 {
-                    startedCorotine = StartCoroutine(RegisterByEmail(email, psw));
+                    startedCorotine = StartCoroutine(RegisterByEmail(email, psw, name));
                 }
                 else
                 {
@@ -125,12 +156,13 @@ public class SignInUpPanelController : MonoBehaviour
         this.state = state;
     }
 
-    public void GetSignUpInfo(out string email, out string psw, out string confirmPsw)
+    public void GetSignUpInfo(out string email, out string psw, out string confirmPsw, out string name)
     {
         // 获取注册界面用户信息
         email = signupEmail.text;
         psw = signupPsw.text;
         confirmPsw = signupConfirmPsw.text;
+        name = signupName.text;
     }
 
     public void GetLoginInfo(out string email, out string psw)
@@ -145,12 +177,12 @@ public class SignInUpPanelController : MonoBehaviour
         return !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(psw);
     }
 
-    public bool CheckInfo(string email, string psw, string confirm)
+    public bool CheckInfo(string email, string psw, string confirm, string name)
     {
-        return CheckInfo(email, psw) && !string.IsNullOrEmpty(psw) && confirm.Equals(psw);
+        return CheckInfo(email, psw) && !string.IsNullOrEmpty(psw) && confirm.Equals(psw) && !string.IsNullOrWhiteSpace(name);
     }
 
-    private IEnumerator RegisterByEmail(string email, string password)
+    private IEnumerator RegisterByEmail(string email, string password, string name)
     {
         Debug.Log($"开始注册 {email} {password}");
         var task = Firebase.Auth.FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(email, password);
@@ -159,12 +191,13 @@ public class SignInUpPanelController : MonoBehaviour
         if (task.Exception != null)
         {
             Debug.LogWarning($"注册错误: {task.Exception}");
-            signupFail.Invoke();
+            signupFailEvent.Invoke();
         }
         else
         {
             Debug.Log($"注册成功: {task.Result.User.Email}");
-            signupSuccessful.Invoke();
+            // 如果注册成功开始 则要创建用户数据
+            signupSuccessfulEvent.Invoke();
         }
         startedCorotine = null;
     }
@@ -175,9 +208,31 @@ public class SignInUpPanelController : MonoBehaviour
         var task = Firebase.Auth.FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(email, password);
         yield return new WaitUntil(() => task.IsCompleted);
 
-        if (true)
+        if (task.IsCanceled)
         {
-
+            Debug.LogWarning("SignInWithEmailAndPasswordAsync was canceled.");
+            loginFailEvent.Invoke();
         }
+        else if (task.IsFaulted)
+        {
+            Debug.LogWarning("SignInWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+            loginFailEvent.Invoke();
+        }
+        else
+        {
+            Firebase.Auth.AuthResult result = task.Result;
+            Debug.LogFormat("User signed in successfully: {0} ({1})", result.User.DisplayName, result.User.UserId);
+            Debug.Log($"登录成功: {Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId}");
+            //Debug.Log($"display name: {Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+            loginSuccessfulEvent.Invoke();
+        }
+
+        startedCorotine = null;
     }
+
+    public void LoginSuccessfulCallBack()
+    {
+        Debug.Log("跳转界面");
+    }
+
 }

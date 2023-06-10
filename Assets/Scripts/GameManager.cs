@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
             DontDestroyOnLoad(this);
+            SwitchState(GameState.loginSignup);
         }
         else
         {
@@ -58,8 +59,6 @@ public class GameManager : MonoBehaviour
         auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
-
-        // 如果有用户
     }
 
     // 初始化firebase
@@ -98,14 +97,17 @@ public class GameManager : MonoBehaviour
         if (auth.CurrentUser != user)
         {
             bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
+            Debug.Log($"{signedIn} {user} {auth.CurrentUser}");
             if (!signedIn && user != null)
             {
                 Debug.Log("GameManager: Signed out " + user.UserId);
+                SwitchState(GameState.loginSignup);
             }
             user = auth.CurrentUser;
             if (signedIn)
             {
                 Debug.Log("GameManager: Signed in " + user.UserId);
+                SwitchState(GameState.getCurUserData);
             }
         }
     }
@@ -132,21 +134,42 @@ public class GameManager : MonoBehaviour
 
     public void SwitchState(GameState state)
     {
+        // 如果是自己转自己则不转换状态
+        if (this.state == state)
+        {
+            Debug.Log($"{this.state} -> {state} do nothing");
+            return;
+        }
+
+        Debug.Log($"{this.state} -> {state}");
         switch (state)
         {
             case GameState.loginSignup:
+                SetActivePanel(friendListPanelController, false);
+                SetActivePanel(signInUpPanelController, true);
                 break;
             case GameState.getCurUserData:
+                SetActivePanel(friendListPanelController, false);
+                SetActivePanel(signInUpPanelController, false);
                 break;
             case GameState.friendList:
+                SetActivePanel(friendListPanelController, true);
+                SetActivePanel(signInUpPanelController, false);
                 break;
             default:
                 break;
         }
+        this.state = state;
     }
 
-    private void OpenPanel()
+    private void SetActivePanel(MonoBehaviour panelCompent, bool value)
     {
+        if (panelCompent != null)
+        {
+            panelCompent.gameObject.SetActive(value);
+            return;
+        }
 
+        Debug.LogWarning($"panelCompent 不存在 不能设置Active");
     }
 }

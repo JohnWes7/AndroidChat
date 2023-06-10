@@ -19,12 +19,12 @@ public class AddFriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("网络错误");
+            Debug.LogWarning("缃戠粶閿欒");
         }
         else
         {
             DataSnapshot snapshot = task.Result;
-            Debug.Log("好友数据获取成功");
+            Debug.Log("濂藉弸鏁版嵁鑾峰彇鎴愬姛");
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             

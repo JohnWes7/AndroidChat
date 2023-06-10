@@ -8,7 +8,7 @@ public static class Tool_ZW
 {
     public static IEnumerator CheckUserData(string UserId, UnityEvent dataExistEvent = null, UnityEvent failEvent = null,UnityEvent dataInexistenceEvent = null)
     {
-        //³õÊ¼Öµ×Öµä
+        //åˆå§‹å€¼å­—å…¸
 
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
         var task = FirebaseDatabase.DefaultInstance.GetReference($"Users/{UserId}" ).GetValueAsync();
@@ -16,7 +16,7 @@ public static class Tool_ZW
 
         if (task.Exception != null)
         {
-            Debug.LogWarning($"Tool:CheckUserData ÓÃ»§Êı¾İ²éÑ¯Ê§°Ü : {UserId}");
+            Debug.LogWarning($"Tool:CheckUserData ç”¨æˆ·æ•°æ®æŸ¥è¯¢å¤±è´¥ : {UserId}");
             if (failEvent != null)
             {
                 failEvent.Invoke();
@@ -26,7 +26,7 @@ public static class Tool_ZW
         {
             DataSnapshot snapshot = task.Result;
             if (snapshot.HasChild("Friend") && snapshot.HasChild("Image") && snapshot.HasChild("Name")){
-                Debug.Log($"Tool:CheckUserData ¸ÃÓÃ»§µÄÊı¾İÒÑ´æÔÚ : {UserId} ");
+                Debug.Log($"Tool:CheckUserData è¯¥ç”¨æˆ·çš„æ•°æ®å·²å­˜åœ¨ : {UserId} ");
                 if (dataExistEvent != null)
                 {
                     dataExistEvent.Invoke();
@@ -34,7 +34,7 @@ public static class Tool_ZW
             }
             else
             {
-                Debug.Log($"Tool:CheckUserData ¸ÃÓÃ»§µÄÊı¾İ²»´æÔÚ : {UserId} ");
+                Debug.Log($"Tool:CheckUserData è¯¥ç”¨æˆ·çš„æ•°æ®ä¸å­˜åœ¨ : {UserId} ");
                 if (dataInexistenceEvent != null)
                 {
                     dataInexistenceEvent.Invoke();

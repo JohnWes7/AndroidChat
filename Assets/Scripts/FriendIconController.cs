@@ -23,12 +23,12 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç½‘ç»œé”™è¯¯");
         }
         else 
         {
             DataSnapshot snapshot = task.Result;
-            Debug.Log("ºÃÓÑÊı¾İ»ñÈ¡³É¹¦");
+            Debug.Log("å¥½å‹æ•°æ®è·å–æˆåŠŸ");
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             string userid = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
@@ -40,12 +40,12 @@ public class FriendIconController : MonoBehaviour
             string combineid;
             if(CombineId(userid, friendid, out combineid))
             {
-                Debug.Log($"id×éºÏ³É¹¦{combineid}");
+                Debug.Log($"idç»„åˆæˆåŠŸ{combineid}");
                 StartCoroutine(ShowChatDetail(combineid));
             }
             else
             {
-                Debug.LogWarning("id×éºÏÊ§°Ü£¡");
+                Debug.LogWarning("idç»„åˆå¤±è´¥ï¼");
             }
             
 
@@ -58,7 +58,7 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task1.IsCompleted);
         if (task1.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç½‘ç»œé”™è¯¯");
         }
         else
         {
@@ -69,20 +69,20 @@ public class FriendIconController : MonoBehaviour
                 yield return new WaitUntil(() => task.IsCompleted);
                 if (task.Exception != null)
                 {
-                    Debug.LogWarning("ÍøÂç´íÎó");
+                    Debug.LogWarning("ç½‘ç»œé”™è¯¯");
                 }
                 else
                 {
                     DataSnapshot snapshot = task.Result;
-                    Debug.Log($"ÁÄÌì³¤¶È»ñÈ¡³É¹¦{snapshot.Value.ToString()}");
+                    Debug.Log($"èŠå¤©é•¿åº¦è·å–æˆåŠŸ{snapshot.Value.ToString()}");
                     Debug.Log(snapshot == null);
-                    Debug.Log($"ÁÄÌì¡¤ĞòºÅÎª{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
+                    Debug.Log($"èŠå¤©Â·åºå·ä¸º{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
                     StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
                 }
             }
             else
             {
-                Debug.LogWarning("ÁÄÌìid²»´æÔÚ");
+                Debug.LogWarning("èŠå¤©idä¸å­˜åœ¨");
             }
         }
         
@@ -96,12 +96,12 @@ public class FriendIconController : MonoBehaviour
         yield return new WaitUntil(() => task.IsCompleted);
         if (task.Exception != null)
         {
-            Debug.LogWarning("ÍøÂç´íÎó");
+            Debug.LogWarning("ç½‘ç»œé”™è¯¯");
         }
         else
         {
             DataSnapshot snapshot = task.Result;
-            Debug.Log($"×îºóÏûÏ¢»ñÈ¡³É¹¦{snapshot.Value.ToString()}");
+            Debug.Log($"æœ€åæ¶ˆæ¯è·å–æˆåŠŸ{snapshot.Value.ToString()}");
             lastMessage.text = snapshot.Value.ToString();
         }
     }
@@ -113,20 +113,20 @@ public class FriendIconController : MonoBehaviour
         {
             combineid = userid + friendid;
             return true;
-            // string1 ÔÚ string2 Ç°Ãæ
+            // string1 åœ¨ string2 å‰é¢
         }
         else if (result == 0)
         {
-            Debug.LogWarning($"ºÍ×Ô¼ºÁÄÌì£¿ ÄãµÄ£º{userid}  ¶Ô·½µÄ£º {friendid}");
+            Debug.LogWarning($"å’Œè‡ªå·±èŠå¤©ï¼Ÿ ä½ çš„ï¼š{userid}  å¯¹æ–¹çš„ï¼š {friendid}");
             combineid = "";
             return false;
-            // string1 ºÍ string2 ÏàÍ¬
+            // string1 å’Œ string2 ç›¸åŒ
         }
         else
         {
             combineid = friendid + userid;
             return true;
-            // string1 ÔÚ string2 ºóÃæ
+            // string1 åœ¨ string2 åé¢
         }
     }
 }

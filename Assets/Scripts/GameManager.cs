@@ -7,16 +7,39 @@ using Firebase.Extensions;
 
 public class GameManager : MonoBehaviour
 {
+    // 单例
+    private static GameManager instance;
+    public static GameManager Instance { get => instance; }
     
 
+    public enum GameState
+    {
+        loginSignup,
+        getCurUserData,
+        friendList
+    }
+
     private bool firebaseInitialized;
-    [SerializeField] Firebase.Auth.FirebaseAuth auth;
-    [SerializeField] Firebase.Auth.FirebaseUser user;
-    
+    [SerializeField] private Firebase.Auth.FirebaseAuth auth;
+    [SerializeField] private Firebase.Auth.FirebaseUser user;
+    [SerializeField] private GameState state;
+
+    // 界面实例
+    [SerializeField] private SignInUpPanelController signInUpPanelController;
+    [SerializeField] private FriendListController friendListPanelController;
 
     public void Awake()
     {
-        DontDestroyOnLoad(this);
+        // 如果有其他初始单例直接销毁
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            DestroyImmediate(gameObject);
+        }
     }
 
     // Start is called before the first frame update
@@ -36,7 +59,7 @@ public class GameManager : MonoBehaviour
         auth.StateChanged += AuthStateChanged;
         AuthStateChanged(this, null);
 
-        Debug.Log(auth.CurrentUser);
+        // 如果有用户
     }
 
     // 初始化firebase
@@ -107,4 +130,23 @@ public class GameManager : MonoBehaviour
         auth = null;
     }
 
+    public void SwitchState(GameState state)
+    {
+        switch (state)
+        {
+            case GameState.loginSignup:
+                break;
+            case GameState.getCurUserData:
+                break;
+            case GameState.friendList:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void OpenPanel()
+    {
+
+    }
 }

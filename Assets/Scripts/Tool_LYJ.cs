@@ -4,7 +4,7 @@ using UnityEngine;
 using Firebase.Database;
 using UnityEngine.Events;
 
-public static class Tool
+public static class Tool_LYJ
 {
     public static IEnumerator CreateNewUserData(string UserId, string name, UnityEvent succesfulEvent = null, UnityEvent failEvent = null)
     {

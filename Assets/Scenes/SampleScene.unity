@@ -597,21 +597,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: SignInUpPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 7246259058844573145, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246259058844573146, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246259058844573146, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7246259059057256999, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}

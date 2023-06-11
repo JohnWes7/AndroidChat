@@ -584,13 +584,5 @@ PrefabInstance:
       propertyPath: m_Name
       value: ChatPanel
       objectReference: {fileID: 0}
-    - target: {fileID: 6920485257461067283, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6920485257461067283, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}

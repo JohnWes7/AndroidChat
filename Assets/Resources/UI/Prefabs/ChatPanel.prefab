@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 50
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -929,7 +929,7 @@ MonoBehaviour:
   userinput: {fileID: 6920485256917098830}
   inputText: {fileID: 6920485257664322462}
   chatID: 
-  messageLeftPrefab: {fileID: 5444044567361486538, guid: 6fdd8f6c0c8ec134b86e6667813382b1, type: 3}
+  messageLeftPrefab: {fileID: 3900348134676839764, guid: 0a20cbe332e325945be981363ff612f3, type: 3}
   viewPortVontent: {fileID: 6920485257126279249}
   chatMessageList: []
 --- !u!1 &6920485257461067284

@@ -54,6 +54,13 @@ public class ChatPanelController : MonoBehaviour
     public void AddIDtoDitc(string userID, string name)
     {
         userNameDict[userID]["name"] = name;
+        foreach (var item in chatMessageList)
+        {
+            if (item != null)
+            {
+                item.UpdateNameDependNameDict(userNameDict);
+            }
+        }
     }
 
 
@@ -74,7 +81,18 @@ public class ChatPanelController : MonoBehaviour
         foreach (var item in content.Children)
         {
             ChatMessageLeftController temp = Instantiate<GameObject>(messageLeftPrefab, viewPortVontent.transform).GetComponent<ChatMessageLeftController>();
+            string sanderid = item.Child("Sender").Value.ToString();
+            temp.name = sanderid;
+            string tempname = sanderid;
+            //string image = "";
 
+            Dictionary<string, string> tempdict;
+            if (userNameDict.TryGetValue(sanderid, out tempdict))
+            {
+                tempname = tempdict.GetValueOrDefault<string, string>("name", sanderid);
+            }
+
+            temp.init(tempname, null, item);
             chatMessageList.Add(temp);
         }
     }
@@ -102,7 +120,7 @@ public class ChatPanelController : MonoBehaviour
     public static IEnumerator GetChatContent(string chatID, string curAuthID, UnityEvent failEvent = null, ChatInfoHandler sucessEvent = null)
     {
         Debug.Log(chatID.Equals("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2lHutIeAly4QKNPASN5HxotT2CL23"));
-        var refe = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + "6AxgcfVMjMY8Mt3sdvkFKHv7oYC2lHutIeAly4QKNPASN5HxotT2CL23" + "/Content");
+        var refe = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatID + "/Content/");
         var task = refe.GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
 
@@ -136,5 +154,11 @@ public class ChatPanelController : MonoBehaviour
         }
     }
 
-    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }

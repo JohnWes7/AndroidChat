@@ -4,11 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Storage;
+using System.IO;
 
 public class UserDataController : MonoBehaviour
 {
     [SerializeField] private Text userName;
     [SerializeField] private Image userImage;
+    public Button btn;
+    AndroidJavaObject jo;
     void Start()
     {
        // init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
@@ -53,4 +56,54 @@ public class UserDataController : MonoBehaviour
             }
         }
     }
-}
+    private void Awake()
+    {
+        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+        btn.onClick.AddListener(CallAndroid);
+    }
+    void CallAndroid()
+    {
+        jo.Call("startPhoto");
+    }
+    public void CallUnity(string str)
+    {
+        ShowImage(str);
+        jo.Call("CallAndroid", string.Format("图片Address>>>>" + str));
+
+        //string path = "file://"  + str;
+        //StartCoroutine(LoadTexturePreview(path));
+    }
+    private void ShowImage(string path)
+    {
+        string userid = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        FileStream fileStream = new FileStream(path, FileMode.Open, FileAccess.Read);
+        fileStream.Seek(0, SeekOrigin.Begin);
+        byte[] bye = new byte[fileStream.Length];
+        fileStream.Read(bye, 0, (int)bye.Length);
+        fileStream.Close();
+        fileStream.Dispose();
+        fileStream = null;
+        UpdateImage(bye, userid);
+    }
+    public IEnumerator UpdateImage(byte[] bye, string userid)
+    {
+        FirebaseStorage storage = FirebaseStorage.DefaultInstance;
+        StorageReference storageRef = storage.GetReferenceFromUrl("gs://chat-softw.appspot.com");
+        StorageReference riversRef = storageRef.Child($"userimage/{userid}.png");
+        var task = riversRef.PutBytesAsync(bye);
+        yield return new WaitUntil(() => task.IsCompleted);
+        if (task.Exception != null)
+        {
+            Debug.LogWarning("网络错误");
+        }
+        else
+        {
+            StorageMetadata metadata = task.Result;
+            string md5Hash = metadata.Md5Hash;
+            Debug.Log("Finished uploading...");
+            Debug.Log("md5 hash = " + md5Hash);
+        }
+    }
+
+    }

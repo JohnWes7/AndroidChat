@@ -10,11 +10,13 @@ public class ChatPanelController : MonoBehaviour
 {
     [SerializeField] private InputField userinput;
     [SerializeField] private Text inputText;
+    [SerializeField] private Text friendName;
     [SerializeField] private string chatID;
     [SerializeReference] private Dictionary<string, Dictionary<string, string>> userNameDict = new Dictionary<string, Dictionary<string, string>>();
     public delegate void ChatInfoHandler(string chatID, string curAuthID, DataSnapshot content);
     public delegate void UserNameHandler(string userID, string name);
-    private event UserNameHandler UserNameEvent;
+    private event UserNameHandler CurUserNameEvent;
+    private event UserNameHandler OtherUserNameEvent;
     private event ChatInfoHandler ChatInfoGetEvent;
 
     [SerializeField] private GameObject messageLeftPrefab;
@@ -42,13 +44,20 @@ public class ChatPanelController : MonoBehaviour
         userNameDict[otherID].Add("name", otherID);
         userNameDict[otherID].Add("image", "");
 
-        UserNameEvent += AddIDtoDitc;
+        CurUserNameEvent += AddIDtoDitc;
         ChatInfoGetEvent += CreatAllMessageContent;
+        OtherUserNameEvent += AddIDtoDitc;
+        OtherUserNameEvent += AddName; 
 
-        StartCoroutine(GetUserName(curAuthID, UserNameEvent, UserNameEvent));
-        StartCoroutine(GetUserName(otherID, UserNameEvent, UserNameEvent));
+        StartCoroutine(GetUserName(curAuthID, CurUserNameEvent, CurUserNameEvent));
+        StartCoroutine(GetUserName(otherID, OtherUserNameEvent, OtherUserNameEvent));
         StartCoroutine(GetChatContent(chatID, curAuthID, null, ChatInfoGetEvent));
         
+    }
+
+    public void AddName(string userID, string name)
+    {
+        friendName.text = name;
     }
 
     public void AddIDtoDitc(string userID, string name)

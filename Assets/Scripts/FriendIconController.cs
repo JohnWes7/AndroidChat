@@ -7,12 +7,20 @@ using UnityEngine.UI;
 
 public class FriendIconController : MonoBehaviour
 {
+    
     [SerializeField] private Text friendName;
     [SerializeField] private Text lastMessage;
     [SerializeField] private Image friendImage;
+    [SerializeField] private string friendID;
+    [SerializeField] private GameObject chatPrefab;
+    [SerializeField] private ChatPanelController chatpanelController;
+    [SerializeField] private FriendListController parent;
+
     // Start is called before the first frame update
-    public void init(string friendid)
+    public void init(string friendid, FriendListController parent)
     {
+        this.friendID = friendid;
+        this.parent = parent;
         StartCoroutine(ShowFriendDetail(friendid));
         Debug.Log(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
     }
@@ -138,6 +146,23 @@ public class FriendIconController : MonoBehaviour
             combineid = friendid + userid;
             return true;
             // string1 在 string2 后面
+        }
+    }
+
+    public void OpenChatPanel()
+    {
+        string chatID;
+        if (CombineId(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId, friendID, out chatID))
+        {
+            if (chatpanelController)
+            {
+                chatpanelController.gameObject.SetActive(true);
+            }
+            else
+            {
+                chatpanelController = Instantiate<GameObject>(chatPrefab, parent.transform).GetComponent<ChatPanelController>();
+            }
+            chatpanelController.Init(chatID, Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
         }
     }
 }

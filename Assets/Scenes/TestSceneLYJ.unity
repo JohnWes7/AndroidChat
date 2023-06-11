@@ -496,6 +496,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 991388448}
     m_Modifications:
+    - target: {fileID: 6920485257126279248, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6920485257403722536, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -583,6 +587,14 @@ PrefabInstance:
     - target: {fileID: 6920485257403722537, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
       propertyPath: m_Name
       value: ChatPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920485257461067283, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6920485257461067283, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b4351cae5fa5e24e8b818c35cedecff, type: 3}

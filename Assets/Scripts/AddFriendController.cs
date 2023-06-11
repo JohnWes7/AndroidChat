@@ -10,6 +10,8 @@ public class AddFriendController : MonoBehaviour
     [SerializeField] private GameObject content;
     [SerializeField] List<AddFriendIconController> friendIconList = new List<AddFriendIconController>();
     [SerializeField] private InputField friendName;
+
+
     public void OnSearchButtonClick ()
     {
         string friendId = friendName.text;

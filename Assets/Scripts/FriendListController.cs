@@ -70,7 +70,7 @@ public class FriendListController : MonoBehaviour
             Debug.Log("好友名： " + friend);
             var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
             friendIconList.Add(temp);
-            temp.init(friend);
+            temp.init(friend, this);
         }
     }
 }

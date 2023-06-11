@@ -11,7 +11,7 @@ public class UserDataController : MonoBehaviour
     [SerializeField] private Image userImage;
     void Start()
     {
-        init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
+       // init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
         // StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
     public void init(string Userid)

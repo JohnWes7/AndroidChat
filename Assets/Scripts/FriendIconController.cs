@@ -1,4 +1,5 @@
 using Firebase.Database;
+using Firebase.Storage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,11 +33,6 @@ public class FriendIconController : MonoBehaviour
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             string userid = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-           // string userid = "lHutIeAly4QKNPASN5HxotT2CL23";
-            if (string.IsNullOrWhiteSpace(imageid))
-            {
-                
-            }
             string combineid;
             if(CombineId(userid, friendid, out combineid))
             {
@@ -47,7 +43,22 @@ public class FriendIconController : MonoBehaviour
             {
                 Debug.LogWarning("id组合失败！");
             }
-            
+            FirebaseStorage storage = FirebaseStorage.DefaultInstance;
+            //Debug.Log($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}");
+            var task1 = storage.GetReferenceFromUrl($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}").GetBytesAsync(10485760);
+            yield return new WaitUntil(() => task1.IsCompleted);
+            if (task1.Exception != null)
+            {
+                Debug.LogWarning("加载默认头像");
+                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
+            }
+            else
+            {
+                Debug.LogWarning("头像获取成功");
+                Texture2D texture = new Texture2D(300, 300);
+                texture.LoadImage(task1.Result);
+                friendImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
 
         }
     }
@@ -77,7 +88,7 @@ public class FriendIconController : MonoBehaviour
                     Debug.Log($"聊天长度获取成功{snapshot.Value.ToString()}");
                     Debug.Log(snapshot == null);
                     Debug.Log($"聊天·序号为{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
-                    StartCoroutine(GetLaetMessage("Chats/" + chatid + "/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
+                    StartCoroutine(GetLaetMessage("Chats/" + chatid + "/Content/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
                 }
             }
             else

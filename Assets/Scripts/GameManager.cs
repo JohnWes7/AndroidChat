@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     // 单例
     private static GameManager instance;
     public static GameManager Instance { get => instance; }
-    
 
     public enum GameState
     {
@@ -28,6 +27,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SignInUpPanelController signInUpPanelController;
     [SerializeField] private CheckUserDataPanelController checkUserDataPanelController;
     [SerializeField] private FriendListController friendListPanelController;
+
+    //[SerializeField] private  userdata;
 
     public void Awake()
     {

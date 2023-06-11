@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Firebase.Database;
 using UnityEngine.Events;
 using Firebase.Auth;
+using System;
 
 public class ChatPanelController : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class ChatPanelController : MonoBehaviour
     [SerializeField] private Text inputText;
     [SerializeField] private Text friendName;
     [SerializeField] private string chatID;
+
     [SerializeReference] private Dictionary<string, Dictionary<string, string>> userNameDict = new Dictionary<string, Dictionary<string, string>>();
     public delegate void ChatInfoHandler(string chatID, string curAuthID, DataSnapshot content);
     public delegate void UserNameHandler(string userID, string name);
@@ -23,17 +25,18 @@ public class ChatPanelController : MonoBehaviour
     [SerializeField] private GameObject viewPortVontent;
     [SerializeField] private List<ChatMessageLeftController> chatMessageList = new List<ChatMessageLeftController>();
 
-    private void Start()
-    {
-        Init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2lHutIeAly4QKNPASN5HxotT2CL23", FirebaseAuth.DefaultInstance.CurrentUser.UserId);
-        //Init("6AxgcfVMjMY8Mt3sdvkF", FirebaseAuth.DefaultInstance.CurrentUser.UserId);
-    }
+    //private void Start()
+    //{
+    //    //Init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2lHutIeAly4QKNPASN5HxotT2CL23", FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+    //    //Init("6AxgcfVMjMY8Mt3sdvkF", FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+    //}
 
     public void Init(string chatID, string curAuthID)
     {
         Debug.Log($"{chatID}  {curAuthID}");
         this.chatID = chatID;
-        
+
+
         string otherID = (chatID.Clone() as string).Replace(curAuthID, "");
         userNameDict.Clear();
         userNameDict.Add(curAuthID, new Dictionary<string, string>());
@@ -52,7 +55,39 @@ public class ChatPanelController : MonoBehaviour
         StartCoroutine(GetUserName(curAuthID, CurUserNameEvent, CurUserNameEvent));
         StartCoroutine(GetUserName(otherID, OtherUserNameEvent, OtherUserNameEvent));
         StartCoroutine(GetChatContent(chatID, curAuthID, null, ChatInfoGetEvent));
-        
+
+        //添加监听数据
+        FirebaseDatabase.DefaultInstance.GetReference($"Chats/{chatID}/Content").LimitToLast(1).ChildAdded += HandleChildAdded;
+
+
+    }
+
+    public void HandleChildAdded(object sender, ChildChangedEventArgs args)
+    {
+        if (args.DatabaseError != null)
+        {
+            Debug.LogError(args.DatabaseError.Message);
+            return;
+        }
+        // Do something with the data in args.Snapshot
+
+        Debug.Log($"检测到添加数据 抓取最后添加的数据 位置{args.Snapshot.Reference}");
+        Debug.Log(args.Snapshot.Child("Content").Value.ToString());
+
+        ChatMessageLeftController temp = Instantiate<GameObject>(messageLeftPrefab, viewPortVontent.transform).GetComponent<ChatMessageLeftController>();
+        string sanderid = args.Snapshot.Child("Sender").Value.ToString();
+        temp.name = sanderid;
+        string tempname = sanderid;
+        //string image = "";
+
+        Dictionary<string, string> tempdict;
+        if (userNameDict.TryGetValue(sanderid, out tempdict))
+        {
+            tempname = tempdict.GetValueOrDefault<string, string>("name", sanderid);
+        }
+
+        temp.init(tempname, null, args.Snapshot);
+        chatMessageList.Add(temp);
     }
 
     public void AddName(string userID, string name)
@@ -75,7 +110,29 @@ public class ChatPanelController : MonoBehaviour
 
     public void OnSendButtonClick()
     {
-        
+        Dictionary<string, string> messageData = new Dictionary<string, string>();
+        string needSendText = userinput.text;
+        userinput.text = "";
+        string other = ChatIDtoOtherID(chatID);
+
+        // 生成发送的数据字典
+        messageData["Acceptor"] = other;
+        messageData["Content"] = needSendText;
+        messageData["Time"] = DateTime.Now.ToUniversalTime().Ticks.ToString();
+        messageData["Sender"] = FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+
+        var refe = FirebaseDatabase.DefaultInstance.GetReference($"Chats/{chatID}/Content").Push();
+        refe.SetValueAsync(messageData).ContinueWith((task) => {
+            if (task.Exception != null)
+            {
+                Debug.Log($"写入数据失败 chatid: {chatID} content: {needSendText} sender: {FirebaseAuth.DefaultInstance.CurrentUser.UserId}");
+            }
+            else
+            {
+                Debug.Log($"写入数据成功 chatid: {chatID} content: {needSendText} sender: {FirebaseAuth.DefaultInstance.CurrentUser.UserId}");
+            }
+        });
+
     }
 
     // 更新面板
@@ -155,9 +212,9 @@ public class ChatPanelController : MonoBehaviour
             }
             else
             {
-                Debug.Log(task.Result);
-                Debug.Log(task.Result.ChildrenCount);
-                Debug.Log("获取数据成功");
+                //Debug.Log(task.Result);
+                //Debug.Log(task.Result.ChildrenCount);
+                Debug.Log($"获取数据成功 {task.Result}");
                 sucessEvent.Invoke(chatID, curAuthID, task.Result);
             }
         }
@@ -168,6 +225,20 @@ public class ChatPanelController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             gameObject.SetActive(false);
+        }
+    }
+
+    public static string ChatIDtoOtherID(string chatID)
+    {
+        string curID = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        try
+        {
+            return chatID.Replace(curID, "");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning($"chatID 分割失败: chatid: {chatID} cur userid: {curID}\n{e}");
+            return "";
         }
     }
 }

@@ -72,58 +72,80 @@ public class FriendIconController : MonoBehaviour
     }
     public IEnumerator ShowChatDetail(string chatid)
     {
-        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-        var task1 = FirebaseDatabase.DefaultInstance.GetReference("Chats").GetValueAsync();
-        yield return new WaitUntil(() => task1.IsCompleted);
-        if (task1.Exception != null)
-        {
-            Debug.LogWarning("网络错误");
-        }
-        else
-        {
-            DataSnapshot snapshot1 = task1.Result;
-            if (snapshot1.HasChild(chatid))
-            {
-                var task = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatid + "/Amount").GetValueAsync();
-                yield return new WaitUntil(() => task.IsCompleted);
-                if (task.Exception != null)
-                {
-                    Debug.LogWarning("网络错误");
-                }
-                else
-                {
-                    DataSnapshot snapshot = task.Result;
-                    Debug.Log($"聊天长度获取成功{snapshot.Value.ToString()}");
-                    Debug.Log(snapshot == null);
-                    Debug.Log($"聊天·序号为{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
-                    StartCoroutine(GetLaetMessage("Chats/" + chatid + "/Content/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
-                }
-            }
-            else
-            {
-                Debug.LogWarning("聊天id不存在");
-            }
-        }
-        
-    }
+        //DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+        //var task1 = FirebaseDatabase.DefaultInstance.GetReference("Chats").GetValueAsync();
+        //yield return new WaitUntil(() => task1.IsCompleted);
+        //if (task1.Exception != null)
+        //{
+        //    Debug.LogWarning("网络错误");
+        //}
+        //else
+        //{
+        //    DataSnapshot snapshot1 = task1.Result;
+        //    if (snapshot1.HasChild(chatid))
+        //    {
+        //        var task = FirebaseDatabase.DefaultInstance.GetReference("Chats/" + chatid + "/Amount").GetValueAsync();
+        //        yield return new WaitUntil(() => task.IsCompleted);
+        //        if (task.Exception != null)
+        //        {
+        //            Debug.LogWarning("网络错误");
+        //        }
+        //        else
+        //        {
+        //            DataSnapshot snapshot = task.Result;
+        //            Debug.Log($"聊天长度获取成功{snapshot.Value.ToString()}");
+        //            Debug.Log(snapshot == null);
+        //            Debug.Log($"聊天·序号为{(int.Parse(snapshot.Value.ToString()) - 1).ToString()}");
+        //            StartCoroutine(GetLaetMessage("Chats/" + chatid + "/Content/" + (int.Parse(snapshot.Value.ToString()) - 1).ToString() + "/Content"));
+        //        }
+        //    }
+        //    else
+        //    {
+        //        Debug.LogWarning("聊天id不存在");
+        //    }
+        //}
 
-
-    public IEnumerator GetLaetMessage(string messageid)
-    {
-        DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
-        var task = FirebaseDatabase.DefaultInstance.GetReference(messageid).GetValueAsync();
+        var task = FirebaseDatabase.DefaultInstance.GetReference($"Chats/{chatid}/Content").LimitToLast(1).GetValueAsync();
         yield return new WaitUntil(() => task.IsCompleted);
+
         if (task.Exception != null)
         {
             Debug.LogWarning("网络错误");
         }
+        else if (task.Result.Value == null)
+        {
+            //Debug.Log(task.Result);
+            Debug.Log("没有上一条消息");
+        }
         else
         {
-            DataSnapshot snapshot = task.Result;
-            Debug.Log($"最后消息获取成功{snapshot.Value.ToString()}");
-            lastMessage.text = snapshot.Value.ToString();
+            foreach (var item in task.Result.Children)
+            {
+                lastMessage.text = item.Child("Content").Value.ToString();
+                Debug.Log($"最后消息获取成功 {task.Result}");
+                break;
+            }
+            
         }
     }
+
+
+    //public IEnumerator GetLaetMessage(string messageid)
+    //{
+    //    DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
+    //    var task = FirebaseDatabase.DefaultInstance.GetReference(messageid).GetValueAsync();
+    //    yield return new WaitUntil(() => task.IsCompleted);
+    //    if (task.Exception != null)
+    //    {
+    //        Debug.LogWarning("网络错误");
+    //    }
+    //    else
+    //    {
+    //        DataSnapshot snapshot = task.Result;
+    //        Debug.Log($"最后消息获取成功{snapshot.Value.ToString()}");
+    //        lastMessage.text = snapshot.Value.ToString();
+    //    }
+    //}
 
     public static bool CombineId(string userid,string friendid,out string combineid)
     {

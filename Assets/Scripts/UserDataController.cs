@@ -14,7 +14,7 @@ public class UserDataController : MonoBehaviour
     AndroidJavaObject jo;
     void Start()
     {
-       // init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
+        init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
         // StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
     public void init(string Userid)
@@ -38,7 +38,7 @@ public class UserDataController : MonoBehaviour
             DataSnapshot snapshot = task.Result;
             userName.text = snapshot.Child("Name").Value.ToString();
             Debug.Log($"{snapshot.Child("Name").Value.ToString()}用户id获取成功： {Userid}");
-            UnityEngine.Events.UnityEvent <byte[]>success = new UnityEngine.Events.UnityEvent<byte[]>();
+            /*UnityEngine.Events.UnityEvent <byte[]>success = new UnityEngine.Events.UnityEvent<byte[]>();
             success.AddListener((imagebyte) =>
             {
                 Texture2D texture = new Texture2D(300, 300);
@@ -48,16 +48,34 @@ public class UserDataController : MonoBehaviour
             UnityEngine.Events.UnityEvent fail = new UnityEngine.Events.UnityEvent();
             fail.AddListener(() =>
             {
-                userImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
+                Debug.Log("UI/Image/defaultHead.png");
+                userImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead");
             });
-            StartCoroutine(Tool_ZW.GetImage(snapshot.Child("Image").ToString(), success,fail));
+            StartCoroutine(Tool_ZW.GetImage(snapshot.Child("Image").ToString(), success,fail));*/
+            string imageid = snapshot.Child("Image").Value.ToString();
+            FirebaseStorage storage = FirebaseStorage.DefaultInstance;
+            //Debug.Log($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}");
+            var task1 = storage.GetReferenceFromUrl($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}").GetBytesAsync(10485760);
+            yield return new WaitUntil(() => task1.IsCompleted);
+            if (task1.Exception != null)
+            {
+                Debug.LogWarning("加载默认头像");
+                userImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
+            }
+            else
+            {
+                Debug.LogWarning("头像获取成功");
+                Texture2D texture = new Texture2D(300, 300);
+                texture.LoadImage(task1.Result);
+                userImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            }
         }
     }
     private void Awake()
     {
-        AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        btn.onClick.AddListener(CallAndroid);
+        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        //jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+        //btn.onClick.AddListener(CallAndroid);
     }
     void CallAndroid()
     {

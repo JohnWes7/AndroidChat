@@ -46,6 +46,7 @@ public static class Tool_ZW
     }
     public static IEnumerator GetImage(string imageid, UnityEvent <byte[]>succesEvent = null, UnityEvent failEvent = null)
     {
+        Debug.Log("开始获取图片");
         FirebaseStorage storage = FirebaseStorage.DefaultInstance;
         var task1 = storage.GetReferenceFromUrl($"gs://chat-softw.appspot.com/userimage/{imageid}").GetBytesAsync(10485760);
         yield return new WaitUntil(() => task1.IsCompleted);
@@ -53,7 +54,7 @@ public static class Tool_ZW
         {
             if (failEvent != null)
             {
-
+                Debug.LogWarning("头像获取失败");
 
                 failEvent.Invoke();
             }

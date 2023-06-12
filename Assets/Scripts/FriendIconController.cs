@@ -22,7 +22,7 @@ public class FriendIconController : MonoBehaviour
         this.friendID = friendid;
         this.parent = parent;
         StartCoroutine(ShowFriendDetail(friendid));
-        Debug.Log(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+        //Debug.Log(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
     }
 
     public IEnumerator ShowFriendDetail(string friendid)

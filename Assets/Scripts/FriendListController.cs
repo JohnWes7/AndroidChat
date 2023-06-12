@@ -48,6 +48,7 @@ public class FriendListController : MonoBehaviour
 
     public void HandleFirendAdded(object sender, ChildChangedEventArgs args)
     {
+        Debug.Log($"HandleFirendAdded 检测到好友添加 位置 {args.Snapshot.Reference.ToString()}");
         var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
         friendIconList.Add(temp);
         temp.init(args.Snapshot.Value.ToString(), this);

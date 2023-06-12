@@ -4,14 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class FriendListController : MonoBehaviour
 {
     // Start is called before the first frame update
+    [SerializeField] private string Userid;
     [SerializeField] private GameObject friendPrefab;
     [SerializeField] private GameObject content;
     [SerializeField] private Text upperUserNameText;
     [SerializeField] private Image upperUserHead;
+    [SerializeField] private Sprite defaultHeadIcon;
     [SerializeField] private ToggleGroup bottomToggleGroup;
     [SerializeField] List<FriendIconController> friendIconList = new List<FriendIconController>();
 
@@ -21,18 +24,36 @@ public class FriendListController : MonoBehaviour
     [SerializeField] private UserDataController userDataPanel;
     
     
+    
     void Start()
     {
         // init("lHutIeAly4QKNPASN5HxotT2CL23");
         // StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
 
+    private void OnDisable()
+    {
+        upperUserHead.sprite = defaultHeadIcon;
+        upperUserNameText.text = "UserName";
+        FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1).ChildAdded -= HandleFirendAdded;
+    }
+
+
     public void init(string Userid)
     {
-
-        StartCoroutine(GetFriendList(Userid));
+        this.Userid = Userid;
+        StartCoroutine(GetUserData(Userid));
+        FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1).ChildAdded += HandleFirendAdded;
     }
-    public IEnumerator GetFriendList(string Userid)
+
+    public void HandleFirendAdded(object sender, ChildChangedEventArgs args)
+    {
+        var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
+        friendIconList.Add(temp);
+        temp.init(args.Snapshot.Value.ToString(), this);
+    }
+
+    public IEnumerator GetUserData(string Userid)
     {
         List<string> friendlist = new List<string>();
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -59,6 +80,25 @@ public class FriendListController : MonoBehaviour
                 upperUserNameText.text = snapshot.Child("Name").Value.ToString();
             }
 
+            //更改头像
+            if (snapshot.Child("Image") != null && !string.IsNullOrWhiteSpace(snapshot.Child("Image").Value.ToString()))
+            {
+                UnityEvent fail = new UnityEvent();
+                UnityEvent<byte[]> suc = new UnityEvent<byte[]>();
+
+                fail.AddListener(()=> {
+                    upperUserHead.sprite = defaultHeadIcon;
+                });
+
+                suc.AddListener((bytes) => {
+                    Texture2D texture = new Texture2D(300, 300);
+                    texture.LoadImage(bytes);
+                    upperUserHead.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                });
+
+                StartCoroutine(Tool_ZW.GetImage(snapshot.Child("Image").Value.ToString(), suc, fail));
+            }
+
             //清楚之前的生成
             foreach (FriendIconController item in friendIconList)
             {
@@ -77,6 +117,67 @@ public class FriendListController : MonoBehaviour
         }
 
         
+    }
+    
+    public void ChatToggleClick(bool value)
+    {
+        //Debug.Log($"ChatToggleClick {value}");
+        
+    }
+
+    public void AddToggleClick(bool value)
+    {
+        Debug.Log($"AddToggleClick {value}");
+        if (value)
+        {
+            if (addFriendPanel == null)
+            {
+                addFriendPanel = Instantiate<GameObject>(AddFriendPanelPrefab, transform).GetComponent<AddFriendController>();
+            }
+
+            if (!addFriendPanel.isActiveAndEnabled)
+            {
+                addFriendPanel.gameObject.SetActive(true);
+            }
+        }
+        else
+        {
+            if (addFriendPanel != null)
+            {
+                addFriendPanel.gameObject.SetActive(false);
+            }
+        }
+
+        
+    }
+
+    public void GearToggleClick(bool value)
+    {
+        Debug.Log($"GearToggleClick {value}");
+        if (value)
+        {
+            if (userDataPanel == null)
+            {
+                userDataPanel = Instantiate<GameObject>(UserDataPanelPrefab, transform).GetComponent<UserDataController>();
+                userDataPanel.init(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+                return;
+            }
+
+            if (!userDataPanel.isActiveAndEnabled)
+            {
+                userDataPanel.gameObject.SetActive(true);
+                userDataPanel.init(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId);
+            }
+            
+        }
+        else
+        {
+            if (userDataPanel != null)
+            {
+                userDataPanel.gameObject.SetActive(false);
+            }
+        }
+
     }
 
     

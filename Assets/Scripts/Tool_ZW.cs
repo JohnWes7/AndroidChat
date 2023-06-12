@@ -54,7 +54,7 @@ public static class Tool_ZW
         {
             if (failEvent != null)
             {
-                Debug.LogWarning($"头像获取失败 {imageid}");
+                Debug.Log($"头像获取失败 {imageid}");
 
                 failEvent.Invoke();
             }
@@ -63,9 +63,7 @@ public static class Tool_ZW
         {
             if (succesEvent != null)
             {
-
-
-                Debug.LogWarning("头像获取成功");
+                Debug.Log("头像获取成功");
                 succesEvent.Invoke(task1.Result);
             }
         }

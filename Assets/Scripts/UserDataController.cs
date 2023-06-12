@@ -5,25 +5,36 @@ using UnityEngine;
 using UnityEngine.UI;
 using Firebase.Storage;
 using System.IO;
+using Firebase.Auth;
 
 public class UserDataController : MonoBehaviour
 {
     [SerializeField] private Text userName;
     [SerializeField] private Image userImage;
-    public Button btn;
+    [SerializeField] public Button btn;
+    [SerializeField] public Button LogoutButton;
+
     AndroidJavaObject jo;
+
+    private void Awake()
+    {
+        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+        //jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
+        //btn.onClick.AddListener(CallAndroid);
+    }
+
     void Start()
     {
-        //init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
+        // init("6AxgcfVMjMY8Mt3sdvkFKHv7oYC2");
         // StartCoroutine(Tool_ZW.CheckUserData("lHutIeAly4QKNPASN5HxotT2CL23"));
     }
+
     public void init(string Userid)
     {
 
         StartCoroutine(GetUserData(Userid));
-
-
     }
+
     public IEnumerator GetUserData(string Userid)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;
@@ -76,12 +87,12 @@ public class UserDataController : MonoBehaviour
             //}
         }
     }
-    private void Awake()
+
+    public void Logout()
     {
-        //AndroidJavaClass jc = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
-        //jo = jc.GetStatic<AndroidJavaObject>("currentActivity");
-        //btn.onClick.AddListener(CallAndroid);
+        FirebaseAuth.DefaultInstance.SignOut();
     }
+    
     void CallAndroid()
     {
         jo.Call("startPhoto");

@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Loading.....
+  m_Text: "\u52A0\u8F7D\u4E2D....."
 --- !u!1 &401237850833141601
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Retry
+  m_Text: "\u91CD\u8BD5"
 --- !u!1 &6026501422648383487
 GameObject:
   m_ObjectHideFlags: 0

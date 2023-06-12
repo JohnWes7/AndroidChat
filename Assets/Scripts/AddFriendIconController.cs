@@ -10,31 +10,40 @@ public class AddFriendIconController : MonoBehaviour
     [SerializeField] private Text friendName;
     [SerializeField] private Image friendImage;
     [SerializeField] private Button addFriend;
-    string id = new string("");
+    [SerializeField] string id = new string("");
+
     public void init(string friendid)
     {
         StartCoroutine(ShowFriendDetail(friendid));
         id = friendid;
     }
+
+
     public void OnAddButtonClick()
     {
-       // string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
-        string userId = "6AxgcfVMjMY8Mt3sdvkFKHv7oYC2";
-        Debug.Log($"当前用户：{userId},目标用户：{id}");
+        //addFriend.gameObject.SetActive(false);
+        StartCoroutine(AddFirend());
+    }
+
+    private IEnumerator AddFirend()
+    {
+        string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        Debug.Log($"当前用户：{userId}, 目标用户：{id}");
         var refe = FirebaseDatabase.DefaultInstance.GetReference($"Users/{userId}/Friend").Push();
-        refe.SetValueAsync(id).ContinueWith((task) => {
-            if (task.Exception != null)
-            {
-                Debug.Log("添加好友失败");
-            }
-            else
-            {
-                Debug.Log("添加好友成功");
-                addFriend.gameObject.SetActive(false);
-            }
-        });
+        var task = refe.SetValueAsync(id);
+        yield return new WaitUntil(() => task.IsCompleted);
 
-
+        if (task.Exception != null)
+        {
+            Debug.Log("添加好友失败");
+        }
+        else
+        {
+            Debug.Log(addFriend.gameObject.activeInHierarchy);
+            addFriend.gameObject.SetActive(false);
+            Debug.Log(addFriend.gameObject.activeInHierarchy);
+            Debug.Log("添加好友成功");
+        }
     }
 
 

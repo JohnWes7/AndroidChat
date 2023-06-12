@@ -42,6 +42,20 @@ public class ChatMessageLeftController : MonoBehaviour
         nameText.text = name;
     }
 
+    public void UpdateSpriteDependDict(Dictionary<string, Sprite> spDict)
+    {
+        try
+        {
+            headImage.sprite = spDict[senderID];
+        }
+        catch (System.Exception e)
+        {
+
+            Debug.LogWarning(e);
+        }
+       
+    }
+
     public void UpdateNameDependNameDict(Dictionary<string, Dictionary<string, string>> dict)
     {
         try

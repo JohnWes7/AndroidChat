@@ -57,12 +57,12 @@ public class FriendIconController : MonoBehaviour
             yield return new WaitUntil(() => task1.IsCompleted);
             if (task1.Exception != null)
             {
-                Debug.LogWarning("加载默认头像");
-                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead");
+                Debug.Log("加载默认头像");
+                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
             }
             else
             {
-                Debug.LogWarning("头像获取成功");
+                Debug.Log("头像获取成功");
                 Texture2D texture = new Texture2D(300, 300);
                 texture.LoadImage(task1.Result);
                 friendImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));

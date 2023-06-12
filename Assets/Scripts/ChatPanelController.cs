@@ -13,8 +13,10 @@ public class ChatPanelController : MonoBehaviour
     [SerializeField] private Text inputText;
     [SerializeField] private Text friendName;
     [SerializeField] private string chatID;
+    [SerializeField] private Sprite defaultHeadIcon;
 
     [SerializeReference] private Dictionary<string, Dictionary<string, string>> userNameDict = new Dictionary<string, Dictionary<string, string>>();
+    [SerializeField] private Dictionary<string, Sprite> userHeadSpriteDict = new Dictionary<string, Sprite>();
     public delegate void ChatInfoHandler(string chatID, string curAuthID, DataSnapshot content);
     public delegate void UserNameHandler(string userID, string name);
     private event UserNameHandler CurUserNameEvent;
@@ -36,9 +38,10 @@ public class ChatPanelController : MonoBehaviour
         Debug.Log($"{chatID}  {curAuthID}");
         this.chatID = chatID;
 
-
+        
         string otherID = (chatID.Clone() as string).Replace(curAuthID, "");
         userNameDict.Clear();
+        
         userNameDict.Add(curAuthID, new Dictionary<string, string>());
         userNameDict[curAuthID].Add("name", curAuthID);
         userNameDict[curAuthID].Add("image", "");
@@ -47,13 +50,47 @@ public class ChatPanelController : MonoBehaviour
         userNameDict[otherID].Add("name", otherID);
         userNameDict[otherID].Add("image", "");
 
+        userHeadSpriteDict.Clear();
+        userHeadSpriteDict.Add(curAuthID, defaultHeadIcon);
+        userHeadSpriteDict.Add(otherID, defaultHeadIcon);
+
         CurUserNameEvent += AddIDtoDitc;
         ChatInfoGetEvent += CreatAllMessageContent;
         OtherUserNameEvent += AddIDtoDitc;
-        OtherUserNameEvent += AddName; 
+        OtherUserNameEvent += AddName;
 
+        UnityEvent<string> getCurHeadImage = new UnityEvent<string>();
+        UnityEvent<string> getOtherHeadImage = new UnityEvent<string>();
+
+        getCurHeadImage.AddListener((imageName) => {
+            UnityEvent<byte[]> suc = new UnityEvent<byte[]>();
+
+            suc.AddListener((bytes) =>
+            {
+                AddSpriteID(curAuthID, Tool_LYJ.Bytes2Sprite(bytes));
+            });
+
+            StartCoroutine(Tool_ZW.GetImage(imageName, suc));
+        });
+
+        getOtherHeadImage.AddListener((imageName) => {
+            UnityEvent<byte[]> suc = new UnityEvent<byte[]>();
+
+            suc.AddListener((bytes) =>
+            {
+                AddSpriteID(otherID, Tool_LYJ.Bytes2Sprite(bytes));
+            });
+
+            StartCoroutine(Tool_ZW.GetImage(imageName, suc));
+        });
+
+        // 获取头像
+        StartCoroutine(Tool_LYJ.GetUserHeadImageName(curAuthID, getCurHeadImage));
+        StartCoroutine(Tool_LYJ.GetUserHeadImageName(otherID, getOtherHeadImage));
+        // 获取名字
         StartCoroutine(GetUserName(curAuthID, CurUserNameEvent, CurUserNameEvent));
         StartCoroutine(GetUserName(otherID, OtherUserNameEvent, OtherUserNameEvent));
+        // 获取聊天
         StartCoroutine(GetChatContent(chatID, curAuthID, null, ChatInfoGetEvent));
 
         //添加监听数据
@@ -99,6 +136,19 @@ public class ChatPanelController : MonoBehaviour
     public void AddName(string userID, string name)
     {
         friendName.text = name;
+    }
+
+    public void AddSpriteID(string userID, Sprite sp)
+    {
+        userHeadSpriteDict[userID] = sp;
+
+        foreach (var item in chatMessageList)
+        {
+            if (item != null)
+            {
+                item.UpdateSpriteDependDict(userHeadSpriteDict);
+            }
+        }
     }
 
     public void AddIDtoDitc(string userID, string name)
@@ -155,18 +205,18 @@ public class ChatPanelController : MonoBehaviour
         foreach (var item in content.Children)
         {
             ChatMessageLeftController temp = Instantiate<GameObject>(messageLeftPrefab, viewPortVontent.transform).GetComponent<ChatMessageLeftController>();
-            string sanderid = item.Child("Sender").Value.ToString();
-            temp.name = sanderid;
-            string tempname = sanderid;
+            string senderid = item.Child("Sender").Value.ToString();
+            temp.name = senderid;
+            string tempname = senderid;
             //string image = "";
 
             Dictionary<string, string> tempdict;
-            if (userNameDict.TryGetValue(sanderid, out tempdict))
+            if (userNameDict.TryGetValue(senderid, out tempdict))
             {
-                tempname = tempdict.GetValueOrDefault<string, string>("name", sanderid);
+                tempname = tempdict.GetValueOrDefault<string, string>("name", senderid);
             }
 
-            temp.init(tempname, null, item);
+            temp.init(tempname, userHeadSpriteDict.GetValueOrDefault(senderid, defaultHeadIcon), item);
             chatMessageList.Add(temp);
         }
     }

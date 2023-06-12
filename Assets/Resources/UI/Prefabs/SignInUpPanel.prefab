@@ -293,6 +293,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8358083532829279748, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
+      propertyPath: m_Text
+      value: "\u767B\u5F55"
+      objectReference: {fileID: 0}
     - target: {fileID: 8358083533137183459, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -320,6 +324,14 @@ PrefabInstance:
     - target: {fileID: 8358083533137183459, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358083533198227663, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
+      propertyPath: m_Text
+      value: "\u767B\u5F55"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358083533377022337, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
+      propertyPath: m_Text
+      value: "\u6CE8\u518C"
       objectReference: {fileID: 0}
     - target: {fileID: 8358083534202717259, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -418,6 +430,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 713422222340886452, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u6CE8\u518C"
+      objectReference: {fileID: 0}
     - target: {fileID: 713422222637278422, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -445,6 +461,14 @@ PrefabInstance:
     - target: {fileID: 713422222637278422, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 713422222715739898, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u767B\u5F55"
+      objectReference: {fileID: 0}
+    - target: {fileID: 713422222883151921, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u6CE8\u518C"
       objectReference: {fileID: 0}
     - target: {fileID: 713422223465756353, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_Pivot.x

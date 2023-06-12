@@ -59,7 +59,7 @@ public class SignInUpPanelController : MonoBehaviour
             //成功创建账号 打印
             if (showText)
             {
-                showText.text = "create account successfully";
+                showText.text = "创建账号成功";
             }
 
         });
@@ -70,6 +70,7 @@ public class SignInUpPanelController : MonoBehaviour
             if (showText)
             {
                 showText.text = "fail to sign up, check your network or email has been registed";
+                showText.text = "注册失败, 检查网络连接或者邮箱已经被注册";
             }
         });
 
@@ -81,6 +82,7 @@ public class SignInUpPanelController : MonoBehaviour
             if (showText)
             {
                 showText.text = "fail to log in, please check your email and password";
+                showText.text = "登录失败, 检查网络链接或者密码不正确";
             }
         });
     }
@@ -103,12 +105,14 @@ public class SignInUpPanelController : MonoBehaviour
                 }
                 else
                 {
-                    showText.text = "some in input is empty or confirm password is not same";
+                    showText.text = "some in input is empty or password not corect";
+                    showText.text = "账号密码不正确或者输入为空";
                 }
             }
             else
             {
                 showText.text = "already doing login";
+                showText.text = "正在与服务器链接";
             }
         }
         else
@@ -139,11 +143,13 @@ public class SignInUpPanelController : MonoBehaviour
                 else
                 {
                     showText.text = "some in input is empty or confirm password is not same";
+                    showText.text = "输入不正确,两个密码不一致或者为空";
                 }
             }
             else
             {
                 showText.text = "already doing sign up";
+                showText.text = "正在与服务器链接";
             }
         }
         else

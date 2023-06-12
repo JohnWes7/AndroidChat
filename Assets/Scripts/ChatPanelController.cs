@@ -129,7 +129,7 @@ public class ChatPanelController : MonoBehaviour
             tempname = tempdict.GetValueOrDefault<string, string>("name", sanderid);
         }
 
-        temp.init(tempname, userHeadSpriteDict.GetValueOrDefault("sanderid", defaultHeadIcon), args.Snapshot);
+        temp.init(tempname, null, args.Snapshot);
         chatMessageList.Add(temp);
     }
 

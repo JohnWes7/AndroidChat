@@ -58,7 +58,7 @@ public class FriendIconController : MonoBehaviour
             if (task1.Exception != null)
             {
                 Debug.Log("加载默认头像");
-                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead");
+                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
             }
             else
             {

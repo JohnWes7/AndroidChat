@@ -92,6 +92,7 @@ public class SignInUpPanelController : MonoBehaviour
         if (state == SUPstate.login)
         {
             //执行登录
+            
             if (startedCorotine == null)
             {
                 string email;
@@ -99,6 +100,7 @@ public class SignInUpPanelController : MonoBehaviour
 
                 GetLoginInfo(out email, out psw);
                 Debug.Log($"{email} {psw}");
+                Debug.Log(CheckInfo(email, psw));
                 if (CheckInfo(email, psw))
                 {
                     startedCorotine = StartCoroutine(LoginByEmail(email, psw));

@@ -1,4 +1,5 @@
 using Firebase.Database;
+using Firebase.Storage;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -43,4 +44,29 @@ public static class Tool_ZW
             
         }
     }
-}
+    public static IEnumerator GetImage(string imageid, UnityEvent <byte[]>succesEvent = null, UnityEvent failEvent = null)
+    {
+        FirebaseStorage storage = FirebaseStorage.DefaultInstance;
+        var task1 = storage.GetReferenceFromUrl($"gs://chat-softw.appspot.com/userimage/{imageid}").GetBytesAsync(10485760);
+        yield return new WaitUntil(() => task1.IsCompleted);
+        if (task1.Exception != null)
+        {
+            if (failEvent != null)
+            {
+
+
+                failEvent.Invoke();
+            }
+        }
+        else
+        {
+            if (succesEvent != null)
+            {
+
+
+                Debug.LogWarning("头像获取成功");
+                succesEvent.Invoke(task1.Result);
+            }
+        }
+    }
+    }

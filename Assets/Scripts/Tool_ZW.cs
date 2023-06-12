@@ -54,7 +54,7 @@ public static class Tool_ZW
         {
             if (failEvent != null)
             {
-                Debug.LogWarning("头像获取失败");
+                Debug.LogWarning($"头像获取失败 {imageid}");
 
                 failEvent.Invoke();
             }

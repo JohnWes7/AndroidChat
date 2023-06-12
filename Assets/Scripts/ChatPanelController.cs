@@ -62,6 +62,12 @@ public class ChatPanelController : MonoBehaviour
 
     }
 
+    private void OnDisable()
+    {
+        //取消监听
+        FirebaseDatabase.DefaultInstance.GetReference($"Chats/{chatID}/Content").LimitToLast(1).ChildAdded -= HandleChildAdded;
+    }
+
     public void HandleChildAdded(object sender, ChildChangedEventArgs args)
     {
         if (args.DatabaseError != null)
@@ -106,6 +112,8 @@ public class ChatPanelController : MonoBehaviour
             }
         }
     }
+
+    
 
 
     public void OnSendButtonClick()

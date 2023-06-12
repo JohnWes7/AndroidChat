@@ -9,10 +9,34 @@ public class AddFriendIconController : MonoBehaviour
 {
     [SerializeField] private Text friendName;
     [SerializeField] private Image friendImage;
+    [SerializeField] private Button addFriend;
+    string id = new string("");
     public void init(string friendid)
     {
         StartCoroutine(ShowFriendDetail(friendid));
+        id = friendid;
     }
+    public void OnAddButtonClick()
+    {
+        string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        var refe = FirebaseDatabase.DefaultInstance.GetReference($"Users/{userId}/Friend").Push();
+        refe.SetValueAsync(id).ContinueWith((task) => {
+            if (task.Exception != null)
+            {
+                Debug.Log("添加好友失败");
+            }
+            else
+            {
+                Debug.Log("添加好友成功");
+                addFriend.gameObject.SetActive(false);
+            }
+        });
+
+
+    }
+
+
+
     public IEnumerator ShowFriendDetail(string friendid)
     {
         DatabaseReference reference = FirebaseDatabase.DefaultInstance.RootReference;

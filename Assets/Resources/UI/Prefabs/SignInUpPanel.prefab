@@ -98,7 +98,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1689415594401748028
 RectTransform:
   m_ObjectHideFlags: 0
@@ -291,7 +291,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8358083532338139383, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358083532800102348, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u90AE\u7BB1..."
       objectReference: {fileID: 0}
     - target: {fileID: 8358083532829279748, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_Text
@@ -332,6 +336,10 @@ PrefabInstance:
     - target: {fileID: 8358083533377022337, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_Text
       value: "\u6CE8\u518C"
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358083533912717805, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u5BC6\u7801..."
       objectReference: {fileID: 0}
     - target: {fileID: 8358083534202717259, guid: 923a763cb18d1a748bf65b4ec70d0c0e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -430,6 +438,10 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 713422221802840024, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u5BC6\u7801..."
+      objectReference: {fileID: 0}
     - target: {fileID: 713422222340886452, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_Text
       value: "\u6CE8\u518C"
@@ -465,6 +477,10 @@ PrefabInstance:
     - target: {fileID: 713422222715739898, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_Text
       value: "\u767B\u5F55"
+      objectReference: {fileID: 0}
+    - target: {fileID: 713422222837066233, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u90AE\u7BB1..."
       objectReference: {fileID: 0}
     - target: {fileID: 713422222883151921, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_Text
@@ -560,7 +576,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 713422223465756354, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4483593385745390076, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u59D3\u540D..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 5218038072429445708, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}
+      propertyPath: m_Text
+      value: "\u786E\u8BA4\u5BC6\u7801..."
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fa5e4e80e50322c4ca39d6de2d0bc74c, type: 3}

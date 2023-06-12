@@ -682,6 +682,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7389593121009119977, guid: 7d08de618ffc5384285988025c24375a, type: 3}
+      propertyPath: m_Text
+      value: "\u7528\u6237\u540D"
+      objectReference: {fileID: 0}
     - target: {fileID: 7519365353360083651, guid: 7d08de618ffc5384285988025c24375a, type: 3}
       propertyPath: m_AnchorMax.y
       value: 1
@@ -860,6 +864,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 623464571}
     m_Modifications:
+    - target: {fileID: 327690469, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1689415594401748028, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -947,6 +955,38 @@ PrefabInstance:
     - target: {fileID: 1689415594401748029, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_Name
       value: SignInUpPanel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1689415594401748029, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2667052888538537641, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_Text
+      value: "\u786E\u8BA4\u5BC6\u7801..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 6003751226171114777, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u59D3\u540D..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058377045187, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u5BC6\u7801..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058434786109, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u5BC6\u7801..."
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259058844573145, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259059057256999, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7246259059467842844, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
+      propertyPath: m_Text
+      value: "\u8F93\u5165\u90AE\u7BB1..."
       objectReference: {fileID: 0}
     - target: {fileID: 7246259059559105250, guid: 9d203eac1a1d28f45b24a39593faf21d, type: 3}
       propertyPath: m_Text

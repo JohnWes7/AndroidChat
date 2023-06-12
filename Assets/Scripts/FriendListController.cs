@@ -77,6 +77,7 @@ public class FriendListController : MonoBehaviour
             //更改名字
             if (snapshot.Child("Name").Value != null)
             {
+                //Debug.LogWarning("用户名称" + snapshot.Child("Name").Value);
                 upperUserNameText.text = snapshot.Child("Name").Value.ToString();
             }
 

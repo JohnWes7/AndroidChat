@@ -34,6 +34,11 @@ public class AddFriendController : MonoBehaviour
         {
             Debug.Log("用户数据获取成功");
             DataSnapshot snapshot = task.Result;
+            foreach (AddFriendIconController item in friendIconList)
+            {
+                Destroy(item.gameObject);
+            }
+            friendIconList.Clear();
             if (snapshot.HasChild(friendId))
             {
                 Debug.Log($"用户存在{friendId}");

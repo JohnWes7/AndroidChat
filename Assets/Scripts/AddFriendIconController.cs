@@ -18,7 +18,9 @@ public class AddFriendIconController : MonoBehaviour
     }
     public void OnAddButtonClick()
     {
-        string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+       // string userId = Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId;
+        string userId = "6AxgcfVMjMY8Mt3sdvkFKHv7oYC2";
+        Debug.Log($"当前用户：{userId},目标用户：{id}");
         var refe = FirebaseDatabase.DefaultInstance.GetReference($"Users/{userId}/Friend").Push();
         refe.SetValueAsync(id).ContinueWith((task) => {
             if (task.Exception != null)
@@ -59,7 +61,7 @@ public class AddFriendIconController : MonoBehaviour
             if (task1.Exception != null)
             {
                 Debug.LogWarning("加载默认头像");
-                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead.png");
+                friendImage.sprite = Resources.Load<Sprite>("UI/Image/defaultHead");
             }
             else
             {

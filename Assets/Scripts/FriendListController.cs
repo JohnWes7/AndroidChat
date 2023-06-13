@@ -35,6 +35,13 @@ public class FriendListController : MonoBehaviour
     {
         upperUserHead.sprite = defaultHeadIcon;
         upperUserNameText.text = "UserName";
+        // FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1).ChildAdded -= HandleFirendAdded;
+    }
+
+    private void OnDestroy()
+    {
+        upperUserHead.sprite = defaultHeadIcon;
+        upperUserNameText.text = "UserName";
         FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1).ChildAdded -= HandleFirendAdded;
     }
 
@@ -43,11 +50,22 @@ public class FriendListController : MonoBehaviour
     {
         this.Userid = Userid;
         StartCoroutine(GetUserData(Userid));
+        Debug.LogWarning($"添加事件 Users/{Userid}/Friend");
         FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1).ChildAdded += HandleFirendAdded;
+        Debug.LogWarning(FirebaseDatabase.DefaultInstance.GetReference($"Users/{Userid}/Friend").LimitToLast(1));
     }
 
     public void HandleFirendAdded(object sender, ChildChangedEventArgs args)
     {
+        Debug.Log("HandleFirendAdded 触发事件");
+        if (args.DatabaseError != null)
+        {
+            Debug.LogError(args.DatabaseError.Message);
+            return;
+        }
+        // Do something with the data in args.Snapshot
+
+        Debug.Log($"HandleFirendAdded 检测到好友添加 位置 {args.Snapshot.Reference.ToString()}");
         var temp = Instantiate<GameObject>(friendPrefab, content.transform).GetComponent<FriendIconController>();
         friendIconList.Add(temp);
         temp.init(args.Snapshot.Value.ToString(), this);

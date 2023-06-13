@@ -21,7 +21,7 @@ public class AddFriendIconController : MonoBehaviour
 
     public void OnAddButtonClick()
     {
-        //addFriend.gameObject.SetActive(false);
+        // addFriend.gameObject.SetActive(false);
         StartCoroutine(AddFirend());
     }
 
@@ -35,14 +35,28 @@ public class AddFriendIconController : MonoBehaviour
 
         if (task.Exception != null)
         {
-            Debug.Log("添加好友失败");
+            Debug.Log("自己添加好友失败");
         }
         else
         {
-            Debug.Log(addFriend.gameObject.activeInHierarchy);
+            //Debug.Log(addFriend.gameObject.activeInHierarchy);
             addFriend.gameObject.SetActive(false);
-            Debug.Log(addFriend.gameObject.activeInHierarchy);
-            Debug.Log("添加好友成功");
+            Debug.Log("自己添加好友成功");
+        }
+
+        refe = FirebaseDatabase.DefaultInstance.GetReference($"Users/{id}/Friend").Push();
+        task = refe.SetValueAsync(userId);
+        yield return new WaitUntil(() => task.IsCompleted);
+
+        if (task.Exception != null)
+        {
+            Debug.Log("对方添加好友失败");
+        }
+        else
+        {
+            //Debug.Log(addFriend.gameObject.activeInHierarchy);
+            addFriend.gameObject.SetActive(false);
+            Debug.Log("对方添加好友成功");
         }
     }
 
@@ -64,7 +78,7 @@ public class AddFriendIconController : MonoBehaviour
             friendName.text = snapshot.Child("Name").Value.ToString();
             string imageid = snapshot.Child("Image").Value.ToString();
             FirebaseStorage storage = FirebaseStorage.DefaultInstance;
-            //Debug.Log($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}");
+            // Debug.Log($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}");
             var task1 = storage.GetReferenceFromUrl($"gs://chat-softw.appspot.com/userimage/{snapshot.Child("Image").Value.ToString()}").GetBytesAsync(10485760);
             yield return new WaitUntil(() => task1.IsCompleted);
             if (task1.Exception != null)
@@ -79,8 +93,6 @@ public class AddFriendIconController : MonoBehaviour
                 texture.LoadImage(task1.Result);
                 friendImage.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             }
-
-
         }
     }
 }

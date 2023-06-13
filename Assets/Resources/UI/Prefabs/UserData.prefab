@@ -311,7 +311,7 @@ MonoBehaviour:
   userName: {fileID: 4571469489077560107}
   userImage: {fileID: 5618282346855841083}
   btn: {fileID: 0}
-  LogoutButton: {fileID: 0}
+  LogoutButton: {fileID: 1587682964180995436}
 --- !u!1 &7139054580114393442
 GameObject:
   m_ObjectHideFlags: 0
